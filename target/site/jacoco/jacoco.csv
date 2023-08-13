@@ -1,0 +1,8 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+nchat,com.walle,ChatServer.new ChannelInitializer() {...},43,0,0,0,6,0,2,0,2,0
+nchat,com.walle,ChatServerHandler,50,0,2,0,14,0,6,0,5,0
+nchat,com.walle,ChatClient,56,0,0,0,13,0,2,0,2,0
+nchat,com.walle,ChatServer,53,0,0,0,15,0,3,0,3,0
+nchat,com.walle,ChatClientHandler,11,0,0,0,4,0,3,0,3,0
+nchat,com.walle,App,39,0,0,0,15,0,5,0,5,0
+nchat,com.walle,ChatClient.new ChannelInitializer() {...},43,0,0,0,6,0,2,0,2,0

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nchat</a> &gt; <a href="index.source.html" class="el_package">com.walle</a> &gt; <span class="el_source">ChatClient.java</span></div><h1>ChatClient.java</h1><pre class="source lang-java linenums">package com.walle;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
+
+public class ChatClient {
+    private final String host;
+    private final int port;
+
+<span class="nc" id="L21">    public ChatClient(String host, int port) {</span>
+<span class="nc" id="L22">        this.host = host;</span>
+<span class="nc" id="L23">        this.port = port;</span>
+<span class="nc" id="L24">    }</span>
+
+    public void run() throws Exception {
+<span class="nc" id="L27">        EventLoopGroup group = new NioEventLoopGroup();</span>
+
+        try {
+<span class="nc" id="L30">            Bootstrap bootstrap = new Bootstrap()</span>
+<span class="nc" id="L31">                .group(group)</span>
+<span class="nc" id="L32">                .channel(NioSocketChannel.class)</span>
+<span class="nc" id="L33">                .handler(new ChannelInitializer&lt;SocketChannel&gt;() {</span>
+                    @Override
+                    public void initChannel(SocketChannel ch) throws Exception {
+<span class="nc" id="L36">                        ChannelPipeline pipeline = ch.pipeline();</span>
+
+<span class="nc" id="L38">                        pipeline.addLast(new StringDecoder());</span>
+<span class="nc" id="L39">                        pipeline.addLast(new StringEncoder());</span>
+<span class="nc" id="L40">                        pipeline.addLast(new ChatClientHandler());</span>
+<span class="nc" id="L41">                    }</span>
+                });
+
+<span class="nc" id="L44">            Channel channel = bootstrap.connect(host, port).sync().channel();</span>
+<span class="nc" id="L45">            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));</span>
+
+            while (true) {
+<span class="nc" id="L48">                channel.writeAndFlush(in.readLine() + &quot;\r\n&quot;);</span>
+            }
+        } finally {
+<span class="nc" id="L51">            group.shutdownGracefully();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
